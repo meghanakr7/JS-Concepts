@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Event Delegation Demo</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      li {
+        margin: 10px 0;
+      }
+      button {
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>My Tasks</h2>
+    <ul id="taskList">
+      <li>Buy groceries <button>Remove</button></li>
+      <li>Do laundry <button>Remove</button></li>
+      <li>Pay bills <button>Remove</button></li>
+    </ul>
+
+    <button id="addTaskBtn">Add Random Task</button>
+
+    <script>
+      const taskList = document.getElementById("taskList");
+      const addTaskBtn = document.getElementById("addTaskBtn");
+
+      // ✅ Event delegation: handle all clicks on the parent <ul>
+      taskList.addEventListener("click", function (e) {
+        if (e.target.tagName === "BUTTON") {
+          const li = e.target.parentElement;
+          taskList.removeChild(li);
+          console.log("Removed task:", li.textContent);
+        }
+      });
+
+      // ➕ Add random task (to test that delegation works for dynamic content)
+      addTaskBtn.addEventListener("click", () => {
+        const newLi = document.createElement("li");
+        newLi.innerHTML = `New Task ${Math.floor(
+          Math.random() * 100
+        )} <button>Remove</button>`;
+        taskList.appendChild(newLi);
+      });
+    </script>
+  </body>
+</html>
